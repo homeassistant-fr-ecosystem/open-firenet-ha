@@ -24,7 +24,7 @@ from .const import (
 )
 from .coordinator import OpenFirenetCoordinator
 
-FAN_MODES = [str(p) for p in range(HEATING_POWER_MIN, HEATING_POWER_MAX + 1, 10)]
+FAN_MODES = [str(p) for p in range(HEATING_POWER_MIN, HEATING_POWER_MAX + 1, 5)]
 PRESET_MODES = list(OPERATING_MODES.values())
 
 
@@ -63,6 +63,10 @@ class OpenFirenetClimate(CoordinatorEntity[OpenFirenetCoordinator], ClimateEntit
             "model": "Rika WiFi Bridge",
             "configuration_url": f"http://{coordinator.host}",
         }
+
+    @property
+    def available(self) -> bool:
+        return self.coordinator.last_update_success and self.coordinator.data is not None
 
     @property
     def _controls(self) -> dict:
