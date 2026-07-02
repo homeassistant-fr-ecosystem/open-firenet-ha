@@ -1,14 +1,18 @@
 {
-  "entity_component": {
+  "entity": {
     "climate": {
-      "default": "mdi:fireplace-off",
-      "state": {
-        "heat": "mdi:fireplace",
-        "off": "mdi:fireplace-off"
+      "open_firenet": {
+        "default": "mdi:fireplace-off",
+        "state": {
+          "heat": "mdi:fireplace",
+          "off": "mdi:fireplace-off"
+        }
       }
     },
     "binary_sensor": {
-      "connectivity": "mdi:wifi-check"
+      "connected": {
+        "default": "mdi:wifi-check"
+      }
     }
   }
 }
