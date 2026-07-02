@@ -1,10 +1,10 @@
 {
   "domain": "open_firenet",
   "name": "Open Firenet",
+  "codeowners": ["@openfirenet"],
   "config_flow": true,
   "documentation": "https://github.com/openfirenet/open-firenet-ha",
-  "issue_tracker": "https://github.com/openfirenet/open-firenet-ha/issues",
   "iot_class": "local_polling",
-  "version": "1.0.0",
-  "codeowners": ["@openfirenet"]
+  "issue_tracker": "https://github.com/openfirenet/open-firenet-ha/issues",
+  "version": "1.0.0"
 }
