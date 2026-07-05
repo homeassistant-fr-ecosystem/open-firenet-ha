@@ -2,21 +2,23 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from dataclasses import replace
 from datetime import timedelta
 
 import aiohttp
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import API_CONTROLS, API_SENSORS, API_STATUS, DOMAIN
+from .api import FirenetData, OpenFirenetClient
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class OpenFirenetCoordinator(DataUpdateCoordinator):
+class OpenFirenetCoordinator(DataUpdateCoordinator[FirenetData]):
     def __init__(self, hass: HomeAssistant, host: str, scan_interval: int) -> None:
         self.host = host
-        self._base = f"http://{host}"
+        self._client = OpenFirenetClient(host)
         super().__init__(
             hass,
             _LOGGER,
@@ -24,43 +26,18 @@ class OpenFirenetCoordinator(DataUpdateCoordinator):
             update_interval=timedelta(seconds=scan_interval),
         )
 
-    async def _async_update_data(self) -> dict:
+    async def _async_update_data(self) -> FirenetData:
         try:
             async with asyncio.timeout(10):
-                async with aiohttp.ClientSession() as session:
-                    status, sensors, controls = await asyncio.gather(
-                        self._get(session, API_STATUS),
-                        self._get(session, API_SENSORS),
-                        self._get(session, API_CONTROLS),
-                    )
-            return {"status": status, "sensors": sensors, "controls": controls}
+                return await self._client.fetch_all()
         except asyncio.TimeoutError as err:
             raise UpdateFailed(f"Timeout connecting to {self.host}") from err
         except aiohttp.ClientError as err:
             raise UpdateFailed(f"Error communicating with {self.host}: {err}") from err
 
-    async def _get(self, session: aiohttp.ClientSession, path: str) -> dict:
-        async with session.get(f"{self._base}{path}") as resp:
-            resp.raise_for_status()
-            return await resp.json()
-
     async def async_set_controls(self, **kwargs) -> None:
-        controls = self.data["controls"].copy()
-        controls.update(kwargs)
-        body = (
-            f"onOff={controls['onOff']}; "
-            f"operatingMode={controls['operatingMode']}; "
-            f"heatingPower={controls['heatingPower']}; "
-            f"tempRoomTarget={controls['tempRoomTarget']};"
-        )
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                f"{self._base}{API_CONTROLS}",
-                data=body,
-                headers={"Content-Type": "text/plain"},
-                timeout=aiohttp.ClientTimeout(total=10),
-            ) as resp:
-                resp.raise_for_status()
+        new_controls = self.data.controls.replace(**kwargs)
+        await self._client.set_controls(new_controls)
         # Optimistic update: reflect the change immediately in the UI
         # without waiting for the next poll cycle.
-        self.async_set_updated_data({**self.data, "controls": controls})
+        self.async_set_updated_data(replace(self.data, controls=new_controls))
