@@ -11,6 +11,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
+from .api import FirenetControls
 from .const import (
     DOMAIN,
     HEATING_POWER_MAX,
@@ -65,12 +66,12 @@ class OpenFirenetClimate(CoordinatorEntity[OpenFirenetCoordinator], ClimateEntit
         }
 
     @property
-    def _controls(self) -> dict:
-        return self.coordinator.data["controls"]
+    def _controls(self) -> FirenetControls:
+        return self.coordinator.data.controls
 
     @property
     def current_temperature(self) -> float | None:
-        sensors = self.coordinator.data.get("sensors", {})
+        sensors = self.coordinator.data.sensors
         for key in ROOM_TEMP_KEYS:
             raw = sensors.get(key)
             if raw is not None:
@@ -82,21 +83,19 @@ class OpenFirenetClimate(CoordinatorEntity[OpenFirenetCoordinator], ClimateEntit
 
     @property
     def hvac_mode(self) -> HVACMode:
-        return HVACMode.HEAT if self._controls.get("onOff", 0) == 1 else HVACMode.OFF
+        return HVACMode.HEAT if self._controls.on_off == 1 else HVACMode.OFF
 
     @property
     def preset_mode(self) -> str | None:
-        return OPERATING_MODES.get(self._controls.get("operatingMode", 2))
+        return OPERATING_MODES.get(self._controls.operating_mode)
 
     @property
     def target_temperature(self) -> float | None:
-        raw = self._controls.get("tempRoomTarget")
-        return raw / 10 if raw is not None else None
+        return self._controls.temp_room_target / 10
 
     @property
     def fan_mode(self) -> str | None:
-        power = self._controls.get("heatingPower")
-        return str(power) if power is not None else None
+        return str(self._controls.heating_power)
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         await self.coordinator.async_set_controls(onOff=1 if hvac_mode == HVACMode.HEAT else 0)

@@ -30,10 +30,9 @@ async def async_setup_entry(
 ) -> None:
     coordinator: OpenFirenetCoordinator = hass.data[DOMAIN][entry.entry_id]
 
-    sensors_data: dict = coordinator.data.get("sensors", {})
     entities = [
         OpenFirenetSensor(coordinator, entry, key)
-        for key, value in sensors_data.items()
+        for key, value in coordinator.data.sensors.items()
         if key not in _SKIP_KEYS and _is_primitive(value)
     ]
     async_add_entities(entities)
@@ -57,7 +56,7 @@ class OpenFirenetSensor(CoordinatorEntity[OpenFirenetCoordinator], SensorEntity)
 
     @property
     def native_value(self):
-        raw = self.coordinator.data.get("sensors", {}).get(self._key)
+        raw = self.coordinator.data.sensors.get(self._key)
         if not _is_primitive(raw):
             return None
         try:

@@ -34,4 +34,4 @@ class OpenFirenetConnected(CoordinatorEntity[OpenFirenetCoordinator], BinarySens
 
     @property
     def is_on(self) -> bool:
-        return self.coordinator.data.get("status", {}).get("mainLoop", False)
+        return self.coordinator.last_update_success
