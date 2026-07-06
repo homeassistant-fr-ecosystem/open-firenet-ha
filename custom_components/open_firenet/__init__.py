@@ -7,7 +7,7 @@ from homeassistant.core import HomeAssistant
 from .const import DEFAULT_SCAN_INTERVAL, DOMAIN
 from .coordinator import OpenFirenetCoordinator
 
-PLATFORMS = [Platform.CLIMATE, Platform.SENSOR, Platform.BINARY_SENSOR, Platform.DIAGNOSTICS]
+PLATFORMS = [Platform.CLIMATE, Platform.SENSOR, Platform.BINARY_SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
