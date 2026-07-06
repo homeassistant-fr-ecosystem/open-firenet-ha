@@ -25,12 +25,12 @@
   "entity": {
     "sensor": {
       "f0":              { "name": "Room Temperature" },
-      "stoveOnOff":      { "name": "Stove On/Off" },
-      "stoveOpMode":     { "name": "Operating Mode" },
-      "stovePower":      { "name": "Heating Power" },
-      "stoveTempTarget": { "name": "Target Temperature" },
+      "stove_on_off":    { "name": "Stove On/Off" },
+      "stove_op_mode":   { "name": "Operating Mode" },
+      "stove_power":     { "name": "Heating Power" },
+      "stove_temp_target": { "name": "Target Temperature" },
       "uptime":          { "name": "Uptime" },
-      "internalTemp":    { "name": "ESP32 Chip Temperature" },
+      "internal_temp":   { "name": "ESP32 Chip Temperature" },
       "rssi":            { "name": "WiFi Signal Strength" },
       "firmware":        { "name": "Firmware Version" },
       "mac":             { "name": "MAC Address" },

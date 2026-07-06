@@ -40,6 +40,15 @@ KNOWN_SENSORS: dict[str, tuple[str | None, str | None, bool, EntityCategory | No
     "ssid":            (None,       None,                              False, _D, None),
 }
 
+# HA translation keys must match [a-z0-9-_]+; map camelCase API keys to snake_case
+_TRANSLATION_KEY: dict[str, str] = {
+    "stoveOnOff":      "stove_on_off",
+    "stoveOpMode":     "stove_op_mode",
+    "stovePower":      "stove_power",
+    "stoveTempTarget": "stove_temp_target",
+    "internalTemp":    "internal_temp",
+}
+
 # Keys exposed by /api/controls and handled by the climate entity
 _SKIP_KEYS = {"onOff", "operatingMode", "heatingPower", "tempRoomTarget"}
 
@@ -72,7 +81,7 @@ class OpenFirenetSensor(CoordinatorEntity[OpenFirenetCoordinator], SensorEntity)
         info = KNOWN_SENSORS.get(key, (None, None, False, None, None))
         unit, device_class, self._divide_by_10, entity_category, self._state_class_override = info
         if key in KNOWN_SENSORS:
-            self._attr_translation_key = key
+            self._attr_translation_key = _TRANSLATION_KEY.get(key, key)
         else:
             self._attr_name = key
         self._attr_native_unit_of_measurement = unit
