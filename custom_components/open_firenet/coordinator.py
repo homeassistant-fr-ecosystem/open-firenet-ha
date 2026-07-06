@@ -35,6 +35,9 @@ class OpenFirenetCoordinator(DataUpdateCoordinator[FirenetData]):
         except aiohttp.ClientError as err:
             raise UpdateFailed(f"Error communicating with {self.host}: {err}") from err
 
+    async def async_close(self) -> None:
+        await self._client.close()
+
     async def async_set_controls(self, **kwargs) -> None:
         new_controls = self.data.controls.replace(**kwargs)
         await self._client.set_controls(new_controls)
