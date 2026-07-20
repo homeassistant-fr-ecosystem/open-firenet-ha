@@ -4,7 +4,7 @@
 This integration enables Home Assistant to control Rika pellet stoves via the [open-firenet](https://github.com/openfirenet/open-firenet) local WiFi bridge, replacing proprietary cloud dependencies with local control.
 
 ## 2. Standards
-- Refer to `/.gemini/rules/shared_python.md` for all development, testing, linting, and type-checking standards.
+@../.gemini/rules/shared_python.md
 
 ## 3. Project-Specific Notes
 - **Domain**: `open_firenet`
