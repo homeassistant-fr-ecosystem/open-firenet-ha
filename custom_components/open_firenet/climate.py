@@ -70,8 +70,10 @@ class OpenFirenetClimate(CoordinatorEntity[OpenFirenetCoordinator], ClimateEntit
         return self.coordinator.last_update_success and self.coordinator.data is not None
 
     @property
-    def _controls(self) -> FirenetControls:
-        return self.coordinator.data.controls
+    def _controls(self) -> dict:
+        if self.coordinator.data is None:
+            return {}
+        return self.coordinator.data.get("controls", {})
 
     @property
     def current_temperature(self) -> float | None:
