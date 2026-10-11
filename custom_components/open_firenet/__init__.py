@@ -7,9 +7,10 @@ from homeassistant.const import CONF_HOST, CONF_SCAN_INTERVAL, Platform
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import device_registry as dr, entity_registry as er
 
-from .binary_sensor import BINARY_SENSOR_TYPES
-from .const import DEFAULT_SCAN_INTERVAL, DOMAIN, get_model_name
+from .binary_sensor import BINARY_SENSOR_TYPES, SCHEDULE_PENDING
+from .const import CONF_MULTIAIR, DEFAULT_SCAN_INTERVAL, DOMAIN, get_model_name, is_multiair_supported
 from .coordinator import OpenFirenetCoordinator
+from .schedule import DAYS as SCHEDULE_DAYS
 from .sensor import SENSOR_TYPES
 
 _LOGGER = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ PLATFORMS = [
 
 
 @callback
-def _cleanup_orphaned_entities(hass: HomeAssistant, entry: ConfigEntry) -> None:
+def _cleanup_orphaned_entities(hass: HomeAssistant, entry: ConfigEntry, multiair: bool) -> None:
     """Remove orphaned entities from older integration versions.
 
     Isolation guarantees:
@@ -43,13 +44,28 @@ def _cleanup_orphaned_entities(hass: HomeAssistant, entry: ConfigEntry) -> None:
         f"{entry.entry_id}_number_frost_protection_temperature",
         f"{entry.entry_id}_number_bake_target_temperature",
         f"{entry.entry_id}_number_room_temperature_offset",
-        f"{entry.entry_id}_number_multiair_1_area",
-        f"{entry.entry_id}_number_multiair_2_area",
-        f"{entry.entry_id}_fan_multiair_1",
-        f"{entry.entry_id}_fan_multiair_2",
         *(f"{entry.entry_id}_{desc.key}" for desc in BINARY_SENSOR_TYPES),
         *(f"{entry.entry_id}_sensor_{desc.key}" for desc in SENSOR_TYPES),
+        # The heating schedule: its pending indicator, its buttons and its 28 times. They were missing here, so each
+        # start removed them from the registry and created them again.
+        f"{entry.entry_id}_{SCHEDULE_PENDING.key}",
+        *(f"{entry.entry_id}_button_{key}" for key in ("schedule_copy", "schedule_send", "schedule_discard")),
+        *(
+            f"{entry.entry_id}_time_schedule_{day}_{slot}_{edge}"
+            for day in SCHEDULE_DAYS
+            for slot in (1, 2)
+            for edge in ("start", "end")
+        ),
     }
+    # The MultiAir entities only exist for an equipped stove (issue #33): for any other, the ones an earlier
+    # version created are removed here.
+    if multiair:
+        valid_unique_ids |= {
+            f"{entry.entry_id}_number_multiair_1_area",
+            f"{entry.entry_id}_number_multiair_2_area",
+            f"{entry.entry_id}_fan_multiair_1",
+            f"{entry.entry_id}_fan_multiair_2",
+        }
 
     entity_reg = er.async_get(hass)
     entries = er.async_entries_for_config_entry(entity_reg, entry.entry_id)
@@ -107,7 +123,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await coordinator.async_config_entry_first_refresh()
 
     # Automatically purge orphaned entities from earlier versions
-    _cleanup_orphaned_entities(hass, entry)
+    _cleanup_orphaned_entities(
+        hass, entry, is_multiair_supported(coordinator.data, entry.options.get(CONF_MULTIAIR, False))
+    )
 
     # Ensure device registry reflects current stove model and versions
     device_reg = dr.async_get(hass)

@@ -275,11 +275,13 @@
         "title": "Optionen",
         "data": {
           "external_temperature_sensor": "Externer Temperatursensor",
-          "schedule_entity": "Zeitplan, der zum Ofen kopiert wird"
+          "schedule_entity": "Zeitplan, der zum Ofen kopiert wird",
+          "multiair": "Mein Ofen hat MultiAir"
         },
         "data_description": {
           "external_temperature_sensor": "Optional. Ein Home-Assistant-Temperatursensor, der als aktuelle Temperatur der Klima-Entität anstelle des Ofensensors angezeigt wird (nützlich ohne RIKA-Raumsensor). Nur Anzeige: Der Ofen regelt weiterhin über seinen eigenen Sensor.",
-          "schedule_entity": "Optional. Ein Home-Assistant-Zeitplan (Einstellungen, Geräte & Dienste, Helfer, Zeitplan), als Wochenraster gezeichnet. Die Schaltfläche „Zeitplan zum Ofen kopieren“ sendet ihn dann an den Ofen. Höchstens zwei Zeitfenster pro Tag."
+          "schedule_entity": "Optional. Ein Home-Assistant-Zeitplan (Einstellungen, Geräte & Dienste, Helfer, Zeitplan), als Wochenraster gezeichnet. Die Schaltfläche „Zeitplan zum Ofen kopieren“ sendet ihn dann an den Ofen. Höchstens zwei Zeitfenster pro Tag.",
+          "multiair": "Ankreuzen, wenn Ihr Ofen MultiAir-Gebläse hat und sie nicht erscheinen. Für die Modelle, die RIKA mit MultiAir verkauft (DOMO, DOMO BACK, PARO, SONO, CONNECT und die MULTIAIR-Versionen von PRIMO, SUMO und ROCO), erscheinen sie von selbst."
         }
       }
     }

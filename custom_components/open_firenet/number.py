@@ -35,6 +35,7 @@ from .const import (
     get_model_name,
     is_bake_supported,
     is_multiair_supported,
+    CONF_MULTIAIR,
 )
 from .coordinator import OpenFirenetCoordinator
 
@@ -193,7 +194,7 @@ async def async_setup_entry(
     coordinator: OpenFirenetCoordinator = hass.data[DOMAIN][entry.entry_id]
     entities = [OpenFirenetNumber(coordinator, entry, desc) for desc in NUMBER_TYPES]
 
-    if is_multiair_supported(coordinator.data):
+    if is_multiair_supported(coordinator.data, entry.options.get(CONF_MULTIAIR, False)):
         entities.extend(
             [
                 OpenFirenetNumber(coordinator, entry, desc)

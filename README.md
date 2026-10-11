@@ -11,7 +11,7 @@ Custom Home Assistant integration for RIKA pellet stoves controlled via the [ope
 ## Features
 
 - **Thermostat Control**: Power on/off, target room temperature, operating mode presets (*Manual*, *Auto*, *Comfort*), and heating power (30%–100%).
-- **MultiAir 1 & 2 Fan Controls**: Dedicated fan entities for MultiAir convection fans with on/off, Auto regulation, and manual speeds 1 to 5 (automatically enabled for MultiAir-equipped models).
+- **MultiAir 1 & 2 Fan Controls**: Dedicated fan entities for MultiAir convection fans with on/off, Auto regulation, and manual speeds 1 to 5 (created for the models sold with MultiAir, or on your choice in the options).
 - **MultiAir Convection Trim**: Number sliders for -30% to +30% fine tuning of convection output.
 - **Weekly Heating Schedule**: Enable or disable the stove's internal weekly heating schedule via a switch, and adjust the setback temperature (10°C–25°C).
 - **Heating Schedule From Home Assistant**: Draw the week as a Home Assistant schedule and copy it to the stove with one button; time entities per slot are available for automations.
@@ -60,6 +60,8 @@ Copy the `custom_components/open_firenet/` directory into your Home Assistant `<
 | `climate.open_firenet` | Open Firenet | Main thermostat: target temperature (14–28°C), HVAC mode (`heat`/`off`), preset mode (`manual`, `auto`, `comfort`), heating power (30–100%) |
 
 ### Fan *(MultiAir models: DOMO, DOMO BACK, PARO, SONO, CONNECT, PRIMO MULTIAIR, SUMO MULTIAIR, ROCO MULTIAIR)*
+
+The MultiAir entities are created for these models only. If your stove has MultiAir and is another model, tick **My stove has MultiAir** in the options of the integration (Configure).
 | Entity ID | Name | Description |
 |---|---|---|
 | `fan.open_firenet_multiair_1` | MultiAir 1 | Convection fan 1: On/Off, Preset modes (`auto`, `1`..`5`), Speed percentage (20%–100%) |

@@ -12,7 +12,7 @@ from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import BridgeRefusedName, OpenFirenetClient
-from .const import CONF_EXTERNAL_TEMP_SENSOR, CONF_SCHEDULE_ENTITY, DEFAULT_SCAN_INTERVAL, DOMAIN
+from .const import CONF_EXTERNAL_TEMP_SENSOR, CONF_MULTIAIR, CONF_SCHEDULE_ENTITY, DEFAULT_SCAN_INTERVAL, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -111,7 +111,8 @@ class OpenFirenetConfigFlow(ConfigFlow, domain=DOMAIN):
 
 class OpenFirenetOptionsFlow(OptionsFlow):
     """Options: an optional Home Assistant temperature sensor for the climate entity's current temperature, and
-    an optional Home Assistant schedule that the "copy" button sends to the stove."""
+    an optional Home Assistant schedule that the "copy" button sends to the stove, and whether the stove has
+    MultiAir when its model is not one known to have it."""
 
     async def async_step_init(self, user_input=None) -> ConfigFlowResult:
         if user_input is not None:
@@ -130,6 +131,9 @@ class OpenFirenetOptionsFlow(OptionsFlow):
                     CONF_SCHEDULE_ENTITY,
                     description={"suggested_value": self.config_entry.options.get(CONF_SCHEDULE_ENTITY)},
                 ): selector.EntitySelector(selector.EntitySelectorConfig(domain="schedule")),
+                vol.Optional(
+                    CONF_MULTIAIR, default=self.config_entry.options.get(CONF_MULTIAIR, False)
+                ): selector.BooleanSelector(),
             }
         )
         return self.async_show_form(step_id="init", data_schema=schema)

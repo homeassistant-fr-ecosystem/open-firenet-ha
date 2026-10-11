@@ -11,7 +11,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, MULTIAIR_LEVELS, get_model_name, is_multiair_supported
+from .const import CONF_MULTIAIR, DOMAIN, MULTIAIR_LEVELS, get_model_name, is_multiair_supported
 from .coordinator import OpenFirenetCoordinator
 
 
@@ -19,7 +19,7 @@ async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     coordinator: OpenFirenetCoordinator = hass.data[DOMAIN][entry.entry_id]
-    if is_multiair_supported(coordinator.data):
+    if is_multiair_supported(coordinator.data, entry.options.get(CONF_MULTIAIR, False)):
         async_add_entities(
             [
                 OpenFirenetMultiAirFan(coordinator, entry, 1),
