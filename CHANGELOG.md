@@ -1,5 +1,10 @@
 # Changelog
 
+## Non publié
+
+### Fixes
+- The integration could not be added, and showed "Unexpected error", with a stove on firmware 2.28: the bridge's answer carried a character that is not valid text. Such a character is now replaced by "�" and the state is read normally. The bridge itself is fixed in its next firmware. (#38)
+
 ## v2.7.0 (2026-10-09)
 
 ### Features
