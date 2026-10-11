@@ -275,11 +275,13 @@
         "title": "Options",
         "data": {
           "external_temperature_sensor": "External temperature sensor",
-          "schedule_entity": "Schedule to copy to the stove"
+          "schedule_entity": "Schedule to copy to the stove",
+          "multiair": "My stove has MultiAir"
         },
         "data_description": {
           "external_temperature_sensor": "Optional. A Home Assistant temperature sensor shown as the climate entity's current temperature instead of the stove's own sensor (useful without a RIKA room sensor). Display only: the stove keeps regulating on its own sensor.",
-          "schedule_entity": "Optional. A Home Assistant schedule (Settings, Devices & services, Helpers, Schedule) drawn as a weekly grid. The button \"Copy schedule to the stove\" then sends it to the stove. Two time ranges per day at most."
+          "schedule_entity": "Optional. A Home Assistant schedule (Settings, Devices & services, Helpers, Schedule) drawn as a weekly grid. The button \"Copy schedule to the stove\" then sends it to the stove. Two time ranges per day at most.",
+          "multiair": "Tick it if your stove has MultiAir fans and they do not show up. They are shown by themselves for the models RIKA sells with MultiAir (DOMO, DOMO BACK, PARO, SONO, CONNECT, and the MULTIAIR versions of PRIMO, SUMO and ROCO)."
         }
       }
     }

@@ -275,11 +275,13 @@
         "title": "Options",
         "data": {
           "external_temperature_sensor": "Sonde de température externe",
-          "schedule_entity": "Planning à copier vers le poêle"
+          "schedule_entity": "Planning à copier vers le poêle",
+          "multiair": "Mon poêle a le MultiAir"
         },
         "data_description": {
           "external_temperature_sensor": "Facultatif. Une sonde de température Home Assistant affichée comme température actuelle de l'entité climat, à la place de la sonde du poêle (utile sans sonde d'ambiance RIKA). Affichage uniquement : le poêle continue de réguler sur sa propre sonde.",
-          "schedule_entity": "Optionnel. Un planning Home Assistant (Paramètres, Appareils et services, Entrées, Planning) dessiné sur une grille hebdomadaire. Le bouton « Copier le planning vers le poêle » l'envoie ensuite au poêle. Deux plages par jour au maximum."
+          "schedule_entity": "Optionnel. Un planning Home Assistant (Paramètres, Appareils et services, Entrées, Planning) dessiné sur une grille hebdomadaire. Le bouton « Copier le planning vers le poêle » l'envoie ensuite au poêle. Deux plages par jour au maximum.",
+          "multiair": "À cocher si votre poêle a des ventilateurs MultiAir et qu'ils n'apparaissent pas. Ils sont affichés d'office pour les modèles que RIKA vend avec le MultiAir (DOMO, DOMO BACK, PARO, SONO, CONNECT, et les versions MULTIAIR des PRIMO, SUMO et ROCO)."
         }
       }
     }

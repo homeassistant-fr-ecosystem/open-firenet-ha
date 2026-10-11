@@ -8,6 +8,8 @@ DEFAULT_SCAN_INTERVAL = 30  # seconds
 CONF_EXTERNAL_TEMP_SENSOR = "external_temperature_sensor"
 # A Home Assistant schedule (helper) whose weekly plan the "copy" button sends to the stove.
 CONF_SCHEDULE_ENTITY = "schedule_entity"
+# The owner says the stove has MultiAir although its model is not in MULTIAIR_MODELS.
+CONF_MULTIAIR = "multiair"
 
 API_STATE = "/api/state"
 API_CONTROLS = "/api/controls"
@@ -93,18 +95,17 @@ def get_model_name(model_id: int | None, fallback: str | None = None) -> str:
     return f"Model {model_id}" if model_id is not None else "Unknown"
 
 
-def is_multiair_supported(data: dict) -> bool:
-    """Check if the stove hardware supports MultiAir forced convection fans."""
+def is_multiair_supported(data: dict, declared: bool = False) -> bool:
+    """Whether the MultiAir fans and their settings are offered for this stove.
+
+    They are for the models RIKA sells with MultiAir, and for any stove whose owner ticked the option ("declared").
+    The bridge reports the fan values for every stove, equipped or not, so their presence tells nothing (issue #33).
+    """
+    if declared:
+        return True
     if not isinstance(data, dict):
         return False
-    stove = data.get("stove", {})
-    controls = data.get("controls", {})
-    model_id = stove.get("model")
-    return (
-        model_id in MULTIAIR_MODELS
-        or "convection_fan1_active" in controls
-        or "convectionFan1Active" in controls
-    )
+    return (data.get("stove") or {}).get("model") in MULTIAIR_MODELS
 
 
 def is_bake_supported(data: dict) -> bool:

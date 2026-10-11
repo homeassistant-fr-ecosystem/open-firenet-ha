@@ -29,7 +29,7 @@ INITIAL_STATE = {
         "has_error": False,
         "error_code": 0,
         "error_sub": 0,
-        "model": 0,
+        "model": 13,
         "model_name": "DOMO",
         "mainboard_version": "1.00",
         "firmware_build": "1",

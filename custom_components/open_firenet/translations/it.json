@@ -275,11 +275,13 @@
         "title": "Opzioni",
         "data": {
           "external_temperature_sensor": "Sensore di temperatura esterno",
-          "schedule_entity": "Pianificazione da copiare sulla stufa"
+          "schedule_entity": "Pianificazione da copiare sulla stufa",
+          "multiair": "La mia stufa ha MultiAir"
         },
         "data_description": {
           "external_temperature_sensor": "Facoltativo. Un sensore di temperatura di Home Assistant da usare per visualizzare la temperatura attuale dell'entità climate al posto di quella rilevata dal sensore della stufa (utile se non hai un sensore ambiente RIKA). Serve solo per la visualizzazione: la stufa continua a regolare il riscaldamento in base al proprio sensore.",
-          "schedule_entity": "Opzionale. Una pianificazione di Home Assistant (Impostazioni, Dispositivi e servizi, Aiutanti, Pianificazione) disegnata su una griglia settimanale. Il pulsante «Copia la pianificazione sulla stufa» la invia poi alla stufa. Al massimo due fasce al giorno."
+          "schedule_entity": "Opzionale. Una pianificazione di Home Assistant (Impostazioni, Dispositivi e servizi, Aiutanti, Pianificazione) disegnata su una griglia settimanale. Il pulsante «Copia la pianificazione sulla stufa» la invia poi alla stufa. Al massimo due fasce al giorno.",
+          "multiair": "Da spuntare se la tua stufa ha i ventilatori MultiAir e non compaiono. Compaiono da soli per i modelli che RIKA vende con MultiAir (DOMO, DOMO BACK, PARO, SONO, CONNECT e le versioni MULTIAIR di PRIMO, SUMO e ROCO)."
         }
       }
     }

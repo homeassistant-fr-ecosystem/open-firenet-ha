@@ -1,5 +1,13 @@
 # Changelog
 
+## Non publié
+
+### Changes
+- The MultiAir fans and their settings are now only created for a stove that has them: the models RIKA sells with MultiAir (DOMO, DOMO BACK, PARO, SONO, CONNECT, PRIMO MULTIAIR, SUMO MULTIAIR, ROCO MULTIAIR). They used to be created for every stove. **If your stove has MultiAir and is not one of these models, tick "My stove has MultiAir" in the options of the integration (Configure) to get them back.** On the other stoves they disappear at the update. (#33)
+
+### Fixes
+- The entities of the heating schedule (its times, its buttons and its pending indicator) were removed and created again each time Home Assistant started. They are now kept. (#33)
+
 ## v2.7.1 (2026-10-11)
 
 ### Fixes
