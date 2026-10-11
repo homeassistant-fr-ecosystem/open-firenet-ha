@@ -143,6 +143,9 @@
       "fan_speed_rpm": {
         "name": "Flue Draft Fan Speed"
       },
+      "power_actual_percent": {
+        "name": "Actual Heating Power"
+      },
       "auger_speed_rpm": {
         "name": "Pellet Auger Speed"
       },

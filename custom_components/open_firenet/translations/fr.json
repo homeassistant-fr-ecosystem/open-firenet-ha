@@ -143,6 +143,9 @@
       "fan_speed_rpm": {
         "name": "Vitesse extracteur de fumées"
       },
+      "power_actual_percent": {
+        "name": "Puissance de chauffe réelle"
+      },
       "auger_speed_rpm": {
         "name": "Vitesse vis d'alimentation"
       },
