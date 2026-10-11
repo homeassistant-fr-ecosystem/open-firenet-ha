@@ -1,6 +1,6 @@
 # Changelog
 
-## Non publié
+## v2.9.0 (2026-10-12)
 
 ### New
 - **Actual heating power**: a sensor with the power the stove really runs at. In comfort mode the stove sets it itself from the room temperature, so it differs from the power setting. It needs a bridge firmware later than 4.1.1.
