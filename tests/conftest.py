@@ -6,6 +6,8 @@ commands on POST /api/controls and updates its own model immediately on POST.
 
 from __future__ import annotations
 
+import json
+
 import copy
 
 import pytest
@@ -99,6 +101,7 @@ class FakeBridge:
         self.refuse_name = False  # bridge firmware 4.0: 403 when called under a name it does not know
         self.not_ready_posts = 0  # bridge firmware 4.0: number of POSTs answered 503 "stove_not_ready"
         self.max_fan_level = 5  # firmware-side clamp, lets tests prove the device wins
+        self.invalid_utf8 = False  # the state carries a byte that is not valid UTF-8
 
     def _refusal(self) -> web.Response:
         return web.json_response(
@@ -110,6 +113,10 @@ class FakeBridge:
         if self.refuse_name:
             return self._refusal()
         self.gets += 1
+        if self.invalid_utf8:
+            # As a stove on firmware 2.28 made the bridge answer (issue #38): a lone 0xFF byte inside a text.
+            body = json.dumps({**self.state, "status": {"ssid": "__BAD__"}}).encode().replace(b"__BAD__", b"\xff")
+            return web.Response(body=body, content_type="application/json")
         return web.json_response(self.state)
 
     async def _post_controls(self, request: web.Request) -> web.Response:

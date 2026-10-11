@@ -12,6 +12,7 @@ refactor proposed by @sguernion in PR #3, ported onto the v2 unified
 from __future__ import annotations
 
 import asyncio
+import json
 from typing import Any
 
 import aiohttp
@@ -97,7 +98,10 @@ class OpenFirenetClient:
         """GET the unified /api/state payload (device / stove / sensors / controls)."""
         async with self._get_session().get(f"{self._base}{API_STATE}") as resp:
             await _raise_for_refusal(resp)
-            return await resp.json()
+            # A bridge up to firmware 4.1.0 can put a byte that is not valid UTF-8 in its state: with a stove on
+            # firmware 2.28 it "decoded" the plain Wi-Fi name the stove returned (issue #38). Such a byte must not
+            # make the whole state unreadable: it is replaced by U+FFFD.
+            return json.loads((await resp.read()).decode("utf-8", errors="replace"))
 
     async def _post(self, path: str, payload: dict[str, Any]) -> None:
         for attempt in (1, 2):
