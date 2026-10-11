@@ -143,6 +143,9 @@
       "fan_speed_rpm": {
         "name": "Abgasgebläse-Drehzahl"
       },
+      "power_actual_percent": {
+        "name": "Tatsächliche Heizleistung"
+      },
       "auger_speed_rpm": {
         "name": "Förderschnecken-Drehzahl"
       },

@@ -109,6 +109,15 @@ SENSOR_TYPES: tuple[OpenFirenetSensorEntityDescription, ...] = (
         value_fn=lambda data: data.get("sensors", {}).get("auger_speed_rpm"),
     ),
     OpenFirenetSensorEntityDescription(
+        key="power_actual_percent",
+        name="Actual Heating Power",
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:fire",
+        optional=True,  # bridge firmware after 4.1.1
+        value_fn=lambda data: data.get("sensors", {}).get("power_actual_percent"),
+    ),
+    OpenFirenetSensorEntityDescription(
         key="air_flaps_percent",
         name="Air Flaps",
         native_unit_of_measurement=PERCENTAGE,

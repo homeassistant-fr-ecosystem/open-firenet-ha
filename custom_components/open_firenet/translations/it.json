@@ -143,6 +143,9 @@
       "fan_speed_rpm": {
         "name": "Velocità dell'estrattore fumi"
       },
+      "power_actual_percent": {
+        "name": "Potenza di riscaldamento effettiva"
+      },
       "auger_speed_rpm": {
         "name": "Velocità della coclea pellet"
       },
