@@ -1,6 +1,6 @@
 # Changelog
 
-## Non publié
+## v2.11.0 (2026-10-13)
 
 ### Breaking changes
 - The **"Stove State" sensor** now gives a state key and Home Assistant shows it in your language. It used to give the English text in every language. **An automation or a template that compares its state with a text must be updated**: `Off` → `off`, `Standby` → `standby`, `Ignition` → `ignition`, `Flame Start` → `flame_start`, `Heating` → `heating`, `Grate Cleaning` → `cleaning`, `Burn Off` → `burn_off`, `Split Log` → `splitlog`, `Split Log Check` → `splitlog_check`, `Put On Split Logs` → `splitlog_refuel`, `Do Not Put Logs` → `splitlog_no_refuel`, `Unknown` → `unknown`. (openfirenet/open-firenet#105)
