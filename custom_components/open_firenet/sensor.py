@@ -48,6 +48,33 @@ def room_temperature(data: dict[str, Any]) -> float | None:
     return float(value)
 
 
+# The states of the stove, as the bridge names them in `stove.state`. The sensor gives the key and Home Assistant
+# shows its translation (issue openfirenet/open-firenet#105: it used to give the bridge's English label, in every
+# language).
+STOVE_STATES = [
+    "off",
+    "standby",
+    "ignition",
+    "flame_start",
+    "heating",
+    "cleaning",
+    "burn_off",
+    "splitlog",
+    "splitlog_check",
+    "splitlog_refuel",
+    "splitlog_no_refuel",
+    "unknown",
+]
+
+
+def _stove_state(data: dict[str, Any]) -> str | None:
+    """The state key; a state a newer bridge firmware would add is given as "unknown", not as an error."""
+    state = data.get("stove", {}).get("state")
+    if state is None:
+        return None
+    return state if state in STOVE_STATES else "unknown"
+
+
 SENSOR_TYPES: tuple[OpenFirenetSensorEntityDescription, ...] = (
     OpenFirenetSensorEntityDescription(
         key="room_temperature",
@@ -155,7 +182,9 @@ SENSOR_TYPES: tuple[OpenFirenetSensorEntityDescription, ...] = (
     OpenFirenetSensorEntityDescription(
         key="stove_state",
         name="Stove State",
-        value_fn=lambda data: data.get("stove", {}).get("state_label"),
+        device_class=SensorDeviceClass.ENUM,
+        options=STOVE_STATES,
+        value_fn=_stove_state,
     ),
     OpenFirenetSensorEntityDescription(
         key="wifi_rssi",
