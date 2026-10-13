@@ -1,5 +1,13 @@
 # Changelog
 
+## Non publié
+
+### New
+- **Heating power** as a slider (30 to 100 %), next to the other settings of the stove. It was only reachable as the "fan mode" of the thermostat. (#43)
+
+### Changes
+- The **air flaps** sensors (position and target) are ordinary sensors and no longer filed under "Diagnostic". (#42)
+
 ## v2.9.0 (2026-10-12)
 
 ### New

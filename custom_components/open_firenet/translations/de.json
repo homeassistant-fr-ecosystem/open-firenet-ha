@@ -102,6 +102,9 @@
       }
     },
     "number": {
+      "heating_power": {
+        "name": "Heizleistung"
+      },
       "setback_temperature": {
         "name": "Absenktemperatur"
       },

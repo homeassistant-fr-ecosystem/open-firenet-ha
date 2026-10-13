@@ -10,7 +10,7 @@ from homeassistant.components.number import (
     NumberMode,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import UnitOfTemperature
+from homeassistant.const import PERCENTAGE, UnitOfTemperature
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -23,6 +23,9 @@ from .const import (
     FROST_TEMP_MAX,
     FROST_TEMP_MIN,
     FROST_TEMP_STEP,
+    HEATING_POWER_MAX,
+    HEATING_POWER_MIN,
+    HEATING_POWER_STEP,
     MULTIAIR_TRIM_MAX,
     MULTIAIR_TRIM_MIN,
     MULTIAIR_TRIM_STEP,
@@ -47,6 +50,20 @@ class OpenFirenetNumberDescription(NumberEntityDescription):
 
 
 NUMBER_TYPES: tuple[OpenFirenetNumberDescription, ...] = (
+    # The power setting, used by the stove in manual and automatic modes (issue #43). The thermostat entity also
+    # offers it, as its "fan mode", which nobody looks for.
+    OpenFirenetNumberDescription(
+        key="heating_power",
+        name="Heating Power",
+        native_unit_of_measurement=PERCENTAGE,
+        native_min_value=HEATING_POWER_MIN,
+        native_max_value=HEATING_POWER_MAX,
+        native_step=HEATING_POWER_STEP,
+        mode=NumberMode.SLIDER,
+        icon="mdi:fire",
+        value_fn=lambda data: data.get("controls", {}).get("power_percent"),
+        set_fn=lambda coord, val: coord.async_set_controls(power_percent=int(val)),
+    ),
     OpenFirenetNumberDescription(
         key="setback_temperature",
         name="Setback Temperature",

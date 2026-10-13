@@ -102,6 +102,9 @@
       }
     },
     "number": {
+      "heating_power": {
+        "name": "Potenza di riscaldamento"
+      },
       "setback_temperature": {
         "name": "Temperatura ridotta"
       },
