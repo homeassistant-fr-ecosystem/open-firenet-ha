@@ -1,6 +1,6 @@
 # Changelog
 
-## Non publié
+## v2.11.1 (2026-10-13)
 
 ### Fixes
 - The logo at the top of the description shown in HACS was a broken image. (#46)
