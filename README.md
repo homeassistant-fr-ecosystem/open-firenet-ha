@@ -99,6 +99,7 @@ For automations, each slot also exists as two time entities. They are **disabled
 ### Number
 | Entity ID | Name | Description | Range |
 |---|---|---|---|
+| `number.open_firenet_heating_power` | Heating Power | Power setting, used by the stove in manual and automatic modes | 30% – 100% (step 5) |
 | `number.open_firenet_setback_temperature` | Setback Temperature | Maintenance temperature when heating times are inactive | 10.0°C – 25.0°C (step 0.5) |
 | `number.open_firenet_frost_protection_temperature` | Frost Protection Temperature | Target temperature maintained when frost protection is active | 4.0°C – 10.0°C (step 1.0) |
 | `number.open_firenet_bake_target_temperature` | Bake Target Temperature | Baking oven chamber target temperature *(DOMO BACK model 23)* | 130°C – 340°C (step 5) |
@@ -125,7 +126,9 @@ For automations, each slot also exists as two time entities. They are **disabled
 | `sensor.open_firenet_service_countdown` | Service Countdown | kg | Remaining kg before scheduled maintenance |
 | `sensor.open_firenet_flue_draft_fan_speed` | Flue Draft Fan Speed | RPM | Exhaust draft fan speed |
 | `sensor.open_firenet_pellet_auger_speed` | Pellet Auger Speed | RPM | Auger feeder motor speed |
-| `sensor.open_firenet_stove_state` | Stove State | — | Human-readable operating state (OFF, IGNITION, BURNING, etc.) |
+| `sensor.open_firenet_stove_state` | Stove State | — | State of the stove, shown in your language. Its value is a key to use in automations: `off`, `standby`, `ignition`, `flame_start`, `heating`, `cleaning`, `burn_off`, `splitlog`, `splitlog_check`, `splitlog_refuel`, `splitlog_no_refuel`, `unknown` |
+| `sensor.open_firenet_actual_heating_power` | Actual Heating Power | % | Power the stove really runs at; in comfort mode the stove sets it itself *(bridge firmware 4.2.0 or later)* |
+| `sensor.open_firenet_air_flaps` / `_air_flaps_target` | Air Flaps / Air Flaps Target | % | Position of the air flaps and the position asked for *(stoves that report them)* |
 | `sensor.open_firenet_wifi_signal_strength` | WiFi Signal Strength | dBm | Open Firenet bridge RSSI |
 | `sensor.open_firenet_uptime` | Uptime | s | ESP32 uptime in seconds |
 
