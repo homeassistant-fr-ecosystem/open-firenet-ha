@@ -153,7 +153,21 @@
         "name": "Velocità della coclea pellet"
       },
       "stove_state": {
-        "name": "Stato della stufa"
+        "name": "Stato della stufa",
+        "state": {
+          "off": "Spenta",
+          "standby": "Standby",
+          "ignition": "Accensione",
+          "flame_start": "Avvio fiamma",
+          "heating": "Riscaldamento",
+          "cleaning": "Pulizia griglia",
+          "burn_off": "Spegnimento",
+          "splitlog": "Modalità legna",
+          "splitlog_check": "Controllo legna",
+          "splitlog_refuel": "Aggiungere legna",
+          "splitlog_no_refuel": "Non aggiungere legna",
+          "unknown": "Sconosciuto"
+        }
       },
       "wifi_rssi": {
         "name": "Intensità del segnale Wi-Fi"

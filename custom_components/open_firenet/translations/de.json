@@ -153,7 +153,21 @@
         "name": "Förderschnecken-Drehzahl"
       },
       "stove_state": {
-        "name": "Ofenstatus"
+        "name": "Ofenstatus",
+        "state": {
+          "off": "Aus",
+          "standby": "Bereitschaft",
+          "ignition": "Zündung",
+          "flame_start": "Flammenstart",
+          "heating": "Heizen",
+          "cleaning": "Rostreinigung",
+          "burn_off": "Abbrand",
+          "splitlog": "Scheitholzbetrieb",
+          "splitlog_check": "Scheitholz-Check",
+          "splitlog_refuel": "Bitte Nachlegen",
+          "splitlog_no_refuel": "Nicht nachlegen",
+          "unknown": "Unbekannt"
+        }
       },
       "wifi_rssi": {
         "name": "WLAN-Signalstärke"

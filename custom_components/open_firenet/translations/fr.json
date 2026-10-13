@@ -153,7 +153,21 @@
         "name": "Vitesse vis d'alimentation"
       },
       "stove_state": {
-        "name": "État du poêle"
+        "name": "État du poêle",
+        "state": {
+          "off": "Arrêt",
+          "standby": "Veille",
+          "ignition": "Allumage",
+          "flame_start": "Démarrage flamme",
+          "heating": "Chauffe",
+          "cleaning": "Nettoyage grille",
+          "burn_off": "Extinction",
+          "splitlog": "Mode bûches",
+          "splitlog_check": "Contrôle bûches",
+          "splitlog_refuel": "Recharger en bûches",
+          "splitlog_no_refuel": "Ne pas recharger",
+          "unknown": "Inconnu"
+        }
       },
       "wifi_rssi": {
         "name": "Signal WiFi"

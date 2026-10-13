@@ -153,7 +153,21 @@
         "name": "Pellet Auger Speed"
       },
       "stove_state": {
-        "name": "Stove State"
+        "name": "Stove State",
+        "state": {
+          "off": "Off",
+          "standby": "Standby",
+          "ignition": "Ignition",
+          "flame_start": "Flame start",
+          "heating": "Heating",
+          "cleaning": "Grate cleaning",
+          "burn_off": "Burn off",
+          "splitlog": "Split log",
+          "splitlog_check": "Split log check",
+          "splitlog_refuel": "Put on split logs",
+          "splitlog_no_refuel": "Do not put logs",
+          "unknown": "Unknown"
+        }
       },
       "wifi_rssi": {
         "name": "WiFi Signal Strength"
