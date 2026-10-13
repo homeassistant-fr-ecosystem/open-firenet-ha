@@ -102,6 +102,9 @@
       }
     },
     "number": {
+      "heating_power": {
+        "name": "Heating Power"
+      },
       "setback_temperature": {
         "name": "Setback Temperature"
       },
