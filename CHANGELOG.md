@@ -1,6 +1,6 @@
 # Changelog
 
-## Non publié
+## v2.10.0 (2026-10-13)
 
 ### New
 - **Heating power** as a slider (30 to 100 %), next to the other settings of the stove. It was only reachable as the "fan mode" of the thermostat. (#43)
