@@ -1,7 +1,7 @@
 # Open Firenet — Home Assistant Integration
 
 <p align="center">
-  <img src="custom_components/open_firenet/brand/logo.png" alt="Open Firenet Logo" width="400">
+  <img src="https://raw.githubusercontent.com/openfirenet/open-firenet-ha/main/custom_components/open_firenet/brand/logo.png" alt="Open Firenet Logo" width="400">
 </p>
 
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/hacs/integration)
