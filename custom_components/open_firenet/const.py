@@ -10,6 +10,8 @@ CONF_EXTERNAL_TEMP_SENSOR = "external_temperature_sensor"
 CONF_SCHEDULE_ENTITY = "schedule_entity"
 # The owner says the stove has MultiAir although its model is not in MULTIAIR_MODELS.
 CONF_MULTIAIR = "multiair"
+# The password asked for wireless updates (set over USB with the installer).
+CONF_OTA_PASSWORD = "ota_password"
 
 API_STATE = "/api/state"
 API_CONTROLS = "/api/controls"

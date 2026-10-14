@@ -301,12 +301,14 @@
         "data": {
           "external_temperature_sensor": "External temperature sensor",
           "schedule_entity": "Schedule to copy to the stove",
-          "multiair": "My stove has MultiAir"
+          "multiair": "My stove has MultiAir",
+          "ota_password": "Wireless update password"
         },
         "data_description": {
           "external_temperature_sensor": "Optional. A Home Assistant temperature sensor shown as the climate entity's current temperature instead of the stove's own sensor (useful without a RIKA room sensor). Display only: the stove keeps regulating on its own sensor.",
           "schedule_entity": "Optional. A Home Assistant schedule (Settings, Devices & services, Helpers, Schedule) drawn as a weekly grid. The button \"Copy schedule to the stove\" then sends it to the stove. Two time ranges per day at most.",
-          "multiair": "Tick it if your stove has MultiAir fans and they do not show up. They are shown by themselves for the models RIKA sells with MultiAir (DOMO, DOMO BACK, PARO, SONO, CONNECT, and the MULTIAIR versions of PRIMO, SUMO and ROCO)."
+          "multiair": "Tick it if your stove has MultiAir fans and they do not show up. They are shown by themselves for the models RIKA sells with MultiAir (DOMO, DOMO BACK, PARO, SONO, CONNECT, and the MULTIAIR versions of PRIMO, SUMO and ROCO).",
+          "ota_password": "Optional. The password the bridge asks for wireless updates, if you set one with the installer. Used when you install a firmware from Home Assistant."
         }
       }
     }
@@ -332,6 +334,51 @@
     },
     "schedule_too_many_slots": {
       "message": "The stove takes two time ranges per day, and {weekday} has {count} in this schedule. Nothing was sent to the stove."
+    },
+    "update_assets_missing": {
+      "message": "This release has no firmware file, checksum list or signature that Home Assistant can use. Update with the installer."
+    },
+    "update_stove_running": {
+      "message": "The stove is burning. The bridge restarts during an update, so wait until the stove is off, then try again."
+    },
+    "update_password_required": {
+      "message": "The bridge asks for a password for wireless updates. Enter it in the options of the integration, then try again."
+    },
+    "update_password_wrong": {
+      "message": "The bridge refused the update password. Check it in the options of the integration. Nothing was changed on the bridge."
+    },
+    "update_auth_unsupported": {
+      "message": "The bridge asked for a password in a way this integration does not know. Update with the installer."
+    },
+    "update_signature_invalid": {
+      "message": "The signature of the firmware list is not valid. The firmware was not sent to the bridge."
+    },
+    "update_checksum_mismatch": {
+      "message": "The downloaded firmware does not match the signed checksum. It was not sent to the bridge."
+    },
+    "update_not_a_firmware": {
+      "message": "The downloaded file is not a firmware image. It was not sent to the bridge."
+    },
+    "update_download_failed": {
+      "message": "The firmware could not be downloaded: {error}"
+    },
+    "update_slot_too_small": {
+      "message": "The update slot of the bridge is {slot} bytes and the firmware is {firmware} bytes. This one needs a first installation over USB with the installer."
+    },
+    "update_unreachable": {
+      "message": "The address {host} cannot be resolved."
+    },
+    "update_no_reply": {
+      "message": "The bridge at {host} did not answer the update request. Check that it is on and reachable."
+    },
+    "update_no_connection": {
+      "message": "The bridge accepted the update but could not connect back to Home Assistant on TCP port {port}. Check the firewall and the network routing between the bridge and Home Assistant."
+    },
+    "update_transfer_failed": {
+      "message": "The transfer to the bridge was interrupted. Try again."
+    },
+    "update_not_confirmed": {
+      "message": "The firmware was sent but the bridge did not come back with the new version. Check its page, then try again if needed."
     }
   }
 }

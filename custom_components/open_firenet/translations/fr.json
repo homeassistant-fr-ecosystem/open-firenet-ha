@@ -301,12 +301,14 @@
         "data": {
           "external_temperature_sensor": "Sonde de température externe",
           "schedule_entity": "Planning à copier vers le poêle",
-          "multiair": "Mon poêle a le MultiAir"
+          "multiair": "Mon poêle a le MultiAir",
+          "ota_password": "Mot de passe de mise à jour sans fil"
         },
         "data_description": {
           "external_temperature_sensor": "Facultatif. Une sonde de température Home Assistant affichée comme température actuelle de l'entité climat, à la place de la sonde du poêle (utile sans sonde d'ambiance RIKA). Affichage uniquement : le poêle continue de réguler sur sa propre sonde.",
           "schedule_entity": "Optionnel. Un planning Home Assistant (Paramètres, Appareils et services, Entrées, Planning) dessiné sur une grille hebdomadaire. Le bouton « Copier le planning vers le poêle » l'envoie ensuite au poêle. Deux plages par jour au maximum.",
-          "multiair": "À cocher si votre poêle a des ventilateurs MultiAir et qu'ils n'apparaissent pas. Ils sont affichés d'office pour les modèles que RIKA vend avec le MultiAir (DOMO, DOMO BACK, PARO, SONO, CONNECT, et les versions MULTIAIR des PRIMO, SUMO et ROCO)."
+          "multiair": "À cocher si votre poêle a des ventilateurs MultiAir et qu'ils n'apparaissent pas. Ils sont affichés d'office pour les modèles que RIKA vend avec le MultiAir (DOMO, DOMO BACK, PARO, SONO, CONNECT, et les versions MULTIAIR des PRIMO, SUMO et ROCO).",
+          "ota_password": "Facultatif. Le mot de passe que la clé demande pour les mises à jour sans fil, si vous en avez défini un avec l'installateur. Utilisé pour installer un firmware depuis Home Assistant."
         }
       }
     }
@@ -332,6 +334,51 @@
     },
     "schedule_too_many_slots": {
       "message": "Le poêle accepte deux plages par jour, et ce planning en a {count} pour {weekday}. Rien n'a été envoyé au poêle."
+    },
+    "update_assets_missing": {
+      "message": "Cette version n'a pas de fichier de firmware, de liste de sommes de contrôle ou de signature utilisable par Home Assistant. Mettez à jour avec l'installateur."
+    },
+    "update_stove_running": {
+      "message": "Le poêle chauffe. La clé redémarre pendant une mise à jour : attendez que le poêle soit éteint, puis réessayez."
+    },
+    "update_password_required": {
+      "message": "La clé demande un mot de passe pour les mises à jour sans fil. Saisissez-le dans les options de l'intégration, puis réessayez."
+    },
+    "update_password_wrong": {
+      "message": "La clé a refusé le mot de passe de mise à jour. Vérifiez-le dans les options de l'intégration. Rien n'a été modifié sur la clé."
+    },
+    "update_auth_unsupported": {
+      "message": "La clé a demandé un mot de passe d'une manière que cette intégration ne connaît pas. Mettez à jour avec l'installateur."
+    },
+    "update_signature_invalid": {
+      "message": "La signature de la liste des firmwares n'est pas valide. Le firmware n'a pas été envoyé à la clé."
+    },
+    "update_checksum_mismatch": {
+      "message": "Le firmware téléchargé ne correspond pas à la somme de contrôle signée. Il n'a pas été envoyé à la clé."
+    },
+    "update_not_a_firmware": {
+      "message": "Le fichier téléchargé n'est pas une image de firmware. Il n'a pas été envoyé à la clé."
+    },
+    "update_download_failed": {
+      "message": "Le firmware n'a pas pu être téléchargé : {error}"
+    },
+    "update_slot_too_small": {
+      "message": "L'emplacement de mise à jour de la clé fait {slot} octets et le firmware en fait {firmware}. Il faut une première installation par USB avec l'installateur."
+    },
+    "update_unreachable": {
+      "message": "L'adresse {host} ne peut pas être résolue."
+    },
+    "update_no_reply": {
+      "message": "La clé à l'adresse {host} n'a pas répondu à la demande de mise à jour. Vérifiez qu'elle est allumée et joignable."
+    },
+    "update_no_connection": {
+      "message": "La clé a accepté la mise à jour mais n'a pas pu se reconnecter à Home Assistant sur le port TCP {port}. Vérifiez le pare-feu et le routage réseau entre la clé et Home Assistant."
+    },
+    "update_transfer_failed": {
+      "message": "Le transfert vers la clé a été interrompu. Réessayez."
+    },
+    "update_not_confirmed": {
+      "message": "Le firmware a été envoyé mais la clé n'est pas revenue avec la nouvelle version. Consultez sa page, puis réessayez si besoin."
     }
   }
 }

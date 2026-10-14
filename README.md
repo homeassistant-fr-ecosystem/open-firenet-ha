@@ -96,6 +96,17 @@ For automations, each slot also exists as two time entities. They are **disabled
 | `button.open_firenet_discard_schedule_changes` | Discard schedule changes | Drops the changes that were not sent |
 | `binary_sensor.open_firenet_schedule_changes_pending` | Schedule changes pending | On while changes are waiting to be sent |
 
+### Firmware update
+
+The **Firmware** entity (`update.open_firenet_firmware`) shows the firmware installed on the bridge and the latest published release, and appears in **Settings, Updates** when a newer one exists.
+
+The **Install** button downloads the release, checks its signature and checksum, and sends it to the bridge over Wi-Fi. Things to know:
+
+- The bridge must be able to open a TCP connection back to Home Assistant (check the firewall if your bridge is on another network).
+- If you set an update password with the installer, enter it in the options of the integration.
+- The installation is refused while the stove is burning, because the bridge restarts.
+- A bridge whose update slot is too small for the new firmware needs one USB installation with the [installer](https://github.com/openfirenet/open-firenet-installer) first; the error message says so.
+
 ### Number
 | Entity ID | Name | Description | Range |
 |---|---|---|---|
