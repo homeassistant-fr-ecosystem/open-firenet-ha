@@ -1,5 +1,10 @@
 # Changelog
 
+## Non publié
+
+### New
+- A **Firmware** entity tells you when a newer firmware of the bridge is published. It only informs; the update itself is still done with the installer. (#50)
+
 ## v2.11.1 (2026-10-13)
 
 ### Fixes

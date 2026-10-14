@@ -287,6 +287,11 @@
       "schedule_discard": {
         "name": "Änderungen der Heizzeiten verwerfen"
       }
+    },
+    "update": {
+      "firmware": {
+        "name": "Firmware"
+      }
     }
   },
   "options": {
