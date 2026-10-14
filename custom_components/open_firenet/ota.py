@@ -106,12 +106,16 @@ async def _download(session: aiohttp.ClientSession, url: str, limit: int) -> byt
             async with session.get(url) as resp:
                 if resp.status != 200:
                     raise OtaError("update_download_failed", error=f"HTTP {resp.status}")
-                data = await resp.content.read(limit + 1)
+                data = bytearray()
+                async for part in resp.content.iter_chunked(64 * 1024):
+                    data += part
+                    if len(data) > limit:
+                        break
     except (asyncio.TimeoutError, aiohttp.ClientError) as err:
         raise OtaError("update_download_failed", error=str(err) or type(err).__name__) from err
     if len(data) > limit:
         raise OtaError("update_download_failed", error="file too large")
-    return data
+    return bytes(data)
 
 
 async def download_verified_firmware(session: aiohttp.ClientSession, assets: dict[str, str]) -> bytes:

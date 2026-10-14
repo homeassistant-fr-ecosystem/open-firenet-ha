@@ -235,3 +235,31 @@ async def test_silent_bridge(monkeypatch):
     with pytest.raises(OtaError) as err:
         await ota.push_firmware("127.0.0.1", FIRMWARE, None, lambda p: None, udp_port=9)
     assert err.value.key == "update_no_reply"
+
+
+async def test_download_reads_a_whole_file_sent_in_pieces():
+    from aiohttp import web
+    from aiohttp.test_utils import TestServer
+    import aiohttp
+
+    body = bytes(range(256)) * 2000  # 512000 bytes, sent in several writes
+
+    async def handler(request):
+        resp = web.StreamResponse()
+        await resp.prepare(request)
+        for start in range(0, len(body), 30000):
+            await resp.write(body[start : start + 30000])
+            await asyncio.sleep(0)
+        return resp
+
+    app = web.Application()
+    app.router.add_get("/f", handler)
+    server = TestServer(app)
+    await server.start_server()
+    try:
+        async with aiohttp.ClientSession() as session:
+            assert await ota._download(session, str(server.make_url("/f")), 4 * 1024 * 1024) == body
+            with pytest.raises(OtaError):
+                await ota._download(session, str(server.make_url("/f")), 1000)
+    finally:
+        await server.close()
