@@ -287,6 +287,11 @@
       "schedule_discard": {
         "name": "Annuler les modifications des plages"
       }
+    },
+    "update": {
+      "firmware": {
+        "name": "Micrologiciel"
+      }
     }
   },
   "options": {

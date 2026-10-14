@@ -287,6 +287,11 @@
       "schedule_discard": {
         "name": "Annulla le modifiche alle fasce orarie"
       }
+    },
+    "update": {
+      "firmware": {
+        "name": "Firmware"
+      }
     }
   },
   "options": {

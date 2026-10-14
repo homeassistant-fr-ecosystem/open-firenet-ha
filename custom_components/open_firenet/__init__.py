@@ -24,6 +24,7 @@ PLATFORMS = [
     Platform.FAN,
     Platform.TIME,
     Platform.BUTTON,
+    Platform.UPDATE,
 ]
 
 
@@ -50,6 +51,7 @@ def _cleanup_orphaned_entities(hass: HomeAssistant, entry: ConfigEntry, multiair
         # The heating schedule: its pending indicator, its buttons and its 28 times. They were missing here, so each
         # start removed them from the registry and created them again.
         f"{entry.entry_id}_{SCHEDULE_PENDING.key}",
+        f"{entry.entry_id}_update_firmware",
         *(f"{entry.entry_id}_button_{key}" for key in ("schedule_copy", "schedule_send", "schedule_discard")),
         *(
             f"{entry.entry_id}_time_schedule_{day}_{slot}_{edge}"
