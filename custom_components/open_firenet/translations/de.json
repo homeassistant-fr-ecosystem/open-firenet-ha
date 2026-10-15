@@ -301,12 +301,14 @@
         "data": {
           "external_temperature_sensor": "Externer Temperatursensor",
           "schedule_entity": "Zeitplan, der zum Ofen kopiert wird",
-          "multiair": "Mein Ofen hat MultiAir"
+          "multiair": "Mein Ofen hat MultiAir",
+          "ota_password": "Passwort für drahtlose Updates"
         },
         "data_description": {
           "external_temperature_sensor": "Optional. Ein Home-Assistant-Temperatursensor, der als aktuelle Temperatur der Klima-Entität anstelle des Ofensensors angezeigt wird (nützlich ohne RIKA-Raumsensor). Nur Anzeige: Der Ofen regelt weiterhin über seinen eigenen Sensor.",
           "schedule_entity": "Optional. Ein Home-Assistant-Zeitplan (Einstellungen, Geräte & Dienste, Helfer, Zeitplan), als Wochenraster gezeichnet. Die Schaltfläche „Zeitplan zum Ofen kopieren“ sendet ihn dann an den Ofen. Höchstens zwei Zeitfenster pro Tag.",
-          "multiair": "Ankreuzen, wenn Ihr Ofen MultiAir-Gebläse hat und sie nicht erscheinen. Für die Modelle, die RIKA mit MultiAir verkauft (DOMO, DOMO BACK, PARO, SONO, CONNECT und die MULTIAIR-Versionen von PRIMO, SUMO und ROCO), erscheinen sie von selbst."
+          "multiair": "Ankreuzen, wenn Ihr Ofen MultiAir-Gebläse hat und sie nicht erscheinen. Für die Modelle, die RIKA mit MultiAir verkauft (DOMO, DOMO BACK, PARO, SONO, CONNECT und die MULTIAIR-Versionen von PRIMO, SUMO und ROCO), erscheinen sie von selbst.",
+          "ota_password": "Optional. Das Passwort, das die Bridge für drahtlose Updates verlangt, falls Sie eines mit dem Installer festgelegt haben. Wird beim Installieren einer Firmware aus Home Assistant verwendet."
         }
       }
     }
@@ -332,6 +334,51 @@
     },
     "schedule_too_many_slots": {
       "message": "Der Ofen akzeptiert zwei Zeitfenster pro Tag, dieser Zeitplan hat für {weekday} {count}. Es wurde nichts an den Ofen gesendet."
+    },
+    "update_assets_missing": {
+      "message": "Dieses Release enthält keine Firmware-Datei, Prüfsummenliste oder Signatur, die Home Assistant verwenden kann. Aktualisieren Sie mit dem Installer."
+    },
+    "update_stove_running": {
+      "message": "Der Ofen heizt. Die Bridge startet während eines Updates neu: Warten Sie, bis der Ofen aus ist, und versuchen Sie es dann erneut."
+    },
+    "update_password_required": {
+      "message": "Die Bridge verlangt ein Passwort für drahtlose Updates. Geben Sie es in den Optionen der Integration ein und versuchen Sie es erneut."
+    },
+    "update_password_wrong": {
+      "message": "Die Bridge hat das Update-Passwort abgelehnt. Prüfen Sie es in den Optionen der Integration. Auf der Bridge wurde nichts geändert."
+    },
+    "update_auth_unsupported": {
+      "message": "Die Bridge hat ein Passwort auf eine Weise verlangt, die diese Integration nicht kennt. Aktualisieren Sie mit dem Installer."
+    },
+    "update_signature_invalid": {
+      "message": "Die Signatur der Firmware-Liste ist ungültig. Die Firmware wurde nicht an die Bridge gesendet."
+    },
+    "update_checksum_mismatch": {
+      "message": "Die heruntergeladene Firmware stimmt nicht mit der signierten Prüfsumme überein. Sie wurde nicht an die Bridge gesendet."
+    },
+    "update_not_a_firmware": {
+      "message": "Die heruntergeladene Datei ist kein Firmware-Image. Sie wurde nicht an die Bridge gesendet."
+    },
+    "update_download_failed": {
+      "message": "Die Firmware konnte nicht heruntergeladen werden: {error}"
+    },
+    "update_slot_too_small": {
+      "message": "Der Update-Slot der Bridge hat {slot} Bytes und die Firmware {firmware} Bytes. Hier ist eine Erstinstallation per USB mit dem Installer nötig."
+    },
+    "update_unreachable": {
+      "message": "Die Adresse {host} kann nicht aufgelöst werden."
+    },
+    "update_no_reply": {
+      "message": "Die Bridge unter {host} hat die Update-Anfrage nicht beantwortet. Prüfen Sie, ob sie eingeschaltet und erreichbar ist."
+    },
+    "update_no_connection": {
+      "message": "Die Bridge hat das Update angenommen, konnte sich aber nicht auf TCP-Port {port} mit Home Assistant verbinden. Prüfen Sie Firewall und Netzwerk-Routing zwischen Bridge und Home Assistant."
+    },
+    "update_transfer_failed": {
+      "message": "Die Übertragung zur Bridge wurde unterbrochen. Versuchen Sie es erneut."
+    },
+    "update_not_confirmed": {
+      "message": "Die Firmware wurde gesendet, aber die Bridge ist nicht mit der neuen Version zurückgekehrt. Prüfen Sie ihre Seite und versuchen Sie es bei Bedarf erneut."
     }
   }
 }

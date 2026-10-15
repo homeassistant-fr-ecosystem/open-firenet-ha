@@ -12,7 +12,14 @@ from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .api import BridgeRefusedName, OpenFirenetClient
-from .const import CONF_EXTERNAL_TEMP_SENSOR, CONF_MULTIAIR, CONF_SCHEDULE_ENTITY, DEFAULT_SCAN_INTERVAL, DOMAIN
+from .const import (
+    CONF_EXTERNAL_TEMP_SENSOR,
+    CONF_MULTIAIR,
+    CONF_OTA_PASSWORD,
+    CONF_SCHEDULE_ENTITY,
+    DEFAULT_SCAN_INTERVAL,
+    DOMAIN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -134,6 +141,10 @@ class OpenFirenetOptionsFlow(OptionsFlow):
                 vol.Optional(
                     CONF_MULTIAIR, default=self.config_entry.options.get(CONF_MULTIAIR, False)
                 ): selector.BooleanSelector(),
+                vol.Optional(
+                    CONF_OTA_PASSWORD,
+                    description={"suggested_value": self.config_entry.options.get(CONF_OTA_PASSWORD)},
+                ): selector.TextSelector(selector.TextSelectorConfig(type=selector.TextSelectorType.PASSWORD)),
             }
         )
         return self.async_show_form(step_id="init", data_schema=schema)

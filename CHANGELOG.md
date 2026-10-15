@@ -3,7 +3,8 @@
 ## Non publié
 
 ### New
-- A **Firmware** entity tells you when a newer firmware of the bridge is published. It only informs; the update itself is still done with the installer. (#50)
+- A **Firmware** entity tells you when a newer firmware of the bridge is published, with a link to its release notes. (#50)
+- **Install the new firmware from Home Assistant**: the Install button of the Firmware entity downloads the release, checks its signature and checksum, and sends it to the bridge over Wi-Fi. If the bridge asks for an update password, enter it in the options of the integration. The bridge must be able to open a TCP connection back to Home Assistant, and the update is refused while the stove is burning. A bridge whose update slot is too small still needs one USB installation with the installer. (#50)
 
 ## v2.11.1 (2026-10-13)
 

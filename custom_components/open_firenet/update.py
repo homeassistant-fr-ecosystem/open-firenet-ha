@@ -1,6 +1,7 @@
-"""Firmware update notification: tells when a newer firmware of the bridge is published on GitHub.
+"""Firmware update of the bridge: tells when a newer firmware is published on GitHub, and installs it on request.
 
-The entity only informs. It does not install anything: the update is done with the installer (USB or wireless)."""
+Home Assistant downloads the firmware, checks its signature and its SHA-256, then sends it to the bridge with the
+wireless update protocol (see ota.py). The bridge must be able to open a TCP connection back to Home Assistant."""
 
 from __future__ import annotations
 
@@ -12,12 +13,14 @@ import aiohttp
 from homeassistant.components.update import UpdateDeviceClass, UpdateEntity, UpdateEntityFeature
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, get_model_name
+from .const import CONF_OTA_PASSWORD, DOMAIN, get_model_name
 from .coordinator import OpenFirenetCoordinator
+from .ota import OtaError, download_verified_firmware, push_firmware
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -26,6 +29,11 @@ LATEST_RELEASE_URL = f"https://api.github.com/repos/{FIRMWARE_REPO}/releases/lat
 
 # GitHub allows 60 anonymous requests an hour per address: a check every few hours is plenty.
 SCAN_INTERVAL = timedelta(hours=6)
+
+# After the transfer the bridge restarts: wait a moment, then ask it until it answers with the new version.
+RESTART_GRACE = 5  # seconds
+RESTART_POLL = 3  # seconds
+RESTART_TRIES = 30
 
 
 async def async_fetch_latest_release(hass: HomeAssistant) -> dict | None:
@@ -46,6 +54,11 @@ async def async_fetch_latest_release(hass: HomeAssistant) -> dict | None:
         return None
     return {
         "version": tag.removeprefix("v"),
+        "assets": {
+            str(a.get("name")): a.get("browser_download_url")
+            for a in data.get("assets") or []
+            if a.get("name") and a.get("browser_download_url")
+        },
         "url": data.get("html_url") or f"https://github.com/{FIRMWARE_REPO}/releases/tag/{tag}",
         "notes": data.get("body") or "",
     }
@@ -62,7 +75,9 @@ class OpenFirenetFirmwareUpdate(CoordinatorEntity[OpenFirenetCoordinator], Updat
     _attr_has_entity_name = True
     _attr_translation_key = "firmware"
     _attr_device_class = UpdateDeviceClass.FIRMWARE
-    _attr_supported_features = UpdateEntityFeature.RELEASE_NOTES
+    _attr_supported_features = (
+        UpdateEntityFeature.INSTALL | UpdateEntityFeature.PROGRESS | UpdateEntityFeature.RELEASE_NOTES
+    )
     # The coordinator polls the bridge; the release check has its own, slower, rhythm (SCAN_INTERVAL).
     _attr_should_poll = True
 
@@ -108,3 +123,55 @@ class OpenFirenetFirmwareUpdate(CoordinatorEntity[OpenFirenetCoordinator], Updat
         release = await async_fetch_latest_release(self.hass)
         if release is not None:
             self._release = release
+
+    async def async_install(self, version: str | None, backup: bool, **kwargs) -> None:
+        release = self._release
+        if release is None or not release.get("assets"):
+            raise HomeAssistantError(translation_domain=DOMAIN, translation_key="update_assets_missing")
+        data = self.coordinator.data or {}
+        device = data.get("device") or {}
+        stove = data.get("stove") or {}
+
+        # The bridge restarts: a stove that is burning would lose its link for a moment.
+        if stove.get("is_burning"):
+            raise HomeAssistantError(translation_domain=DOMAIN, translation_key="update_stove_running")
+        password = self._entry.options.get(CONF_OTA_PASSWORD) or None
+        if device.get("ota_password_set") and not password:
+            raise HomeAssistantError(translation_domain=DOMAIN, translation_key="update_password_required")
+
+        self._attr_in_progress = True
+        self._attr_update_percentage = None
+        self.async_write_ha_state()
+        try:
+            firmware = await download_verified_firmware(async_get_clientsession(self.hass), release["assets"])
+            slot = device.get("ota_slot_bytes") or 0
+            if slot and len(firmware) > slot:
+                raise OtaError("update_slot_too_small", firmware=str(len(firmware)), slot=str(slot))
+
+            def _progress(percent: int) -> None:
+                self._attr_update_percentage = percent
+                self.async_write_ha_state()
+
+            await push_firmware(self.coordinator.host, firmware, password, _progress)
+            await self._wait_for_version(release["version"])
+        except OtaError as err:
+            _LOGGER.warning("Firmware update of the bridge failed: %s", err.key)
+            raise HomeAssistantError(
+                translation_domain=DOMAIN,
+                translation_key=err.key,
+                translation_placeholders={k: str(v) for k, v in err.placeholders.items()},
+            ) from err
+        finally:
+            self._attr_in_progress = False
+            self._attr_update_percentage = None
+            self.async_write_ha_state()
+
+    async def _wait_for_version(self, version: str) -> None:
+        """The bridge restarts after the transfer: wait until it answers again with the new version."""
+        await asyncio.sleep(RESTART_GRACE)
+        for _ in range(RESTART_TRIES):
+            await self.coordinator.async_refresh()
+            if self.installed_version == version:
+                return
+            await asyncio.sleep(RESTART_POLL)
+        raise OtaError("update_not_confirmed")
